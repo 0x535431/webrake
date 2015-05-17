@@ -34,7 +34,7 @@ def extract_data(page):
     for i, x in enumerate(item):
         post = {"store": "hagkaup",
                 "title": x['title'],
-                "_id": x['data-prid'],
+                "_id": get_numbers(x['data-prid']),
                 "price": get_numbers((x.b.string)),
                 "tags": page.replace("http://www.hagkaup.is/vorur/", "").replace("/", " ").split(),
                 "vnr":(get_numbers(x.a['href'])),

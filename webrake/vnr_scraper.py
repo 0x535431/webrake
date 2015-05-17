@@ -160,8 +160,8 @@ if __name__ == '__main__':
     database = my_client['hagkaup']
     coll = database['scrape1']
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
-        future_to_url = dict((executor.submit(load_url, url, 60), url)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        future_to_url = dict((executor.submit(load_url, url, 240), url)
                              for url in URLS)
 
         for future in concurrent.futures.as_completed(future_to_url):
@@ -169,6 +169,7 @@ if __name__ == '__main__':
             if future.exception() is not None:
                 print('%r generated an exception: %s' % (url,
                                                          future.exception()))
+                log.warn(('%r generated an exception: %s' % (url,future.exception())))
             else:
                 if len(future.result()) > 10500:
                     try:
